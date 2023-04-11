@@ -1,0 +1,10 @@
+﻿            《《 HELP 》》
+Directory - Takes you to 'Directory Menu'
+    
+Files - Takes you to 'Files Menu'
+    Rename - Mass rename documents
+    Purge - Purge a directory of all documents or types
+
+Network - Takes you to 'Network Menu'
+    IPAddress - Displays the ipaddress online on your network
+    IPInfo - Takes an arugment to retrieve IP info

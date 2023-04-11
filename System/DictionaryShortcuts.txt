@@ -1,0 +1,6 @@
+﻿Desktop
+MyDocuments
+MyPictures
+MyMusic
+Startup
+StartMenu
