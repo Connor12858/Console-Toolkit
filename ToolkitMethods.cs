@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,6 +47,25 @@ namespace Console_Toolkit
             if( title != null)
             {
                 Console.WriteLine(Menu(title));
+            }
+        }
+
+        // Retrieves a method from text
+        public static MethodInfo RetrieveMethod(string classType, string methodName)
+        {
+            // Find the class type 
+            Type type = Type.GetType("Console_Toolkit." + classType);
+
+            // Checks if the type exists
+            if (type != null)
+            {
+                // Get the method and return, even if null
+                MethodInfo method = type.GetMethod(methodName);
+                return method;
+            }
+            else
+            {
+                return null;
             }
         }
     }
