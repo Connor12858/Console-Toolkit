@@ -1,10 +1,11 @@
-﻿            《《 HELP 》》
-Directory - Takes you to 'Directory Menu'
-    
-Files - Takes you to 'Files Menu'
+﻿            
+            《《 HELP 》》
+
+File - Takes you to 'File Menu'
     Rename - Mass rename documents
     Purge - Purge a directory of all documents or types
 
 Network - Takes you to 'Network Menu'
     IPAddress - Displays the ipaddress online on your network
-    IPInfo - Takes an arugment to retrieve IP info
+    IPInfo - Retrieves the IP info of a given ip address
+        [ipAddress (127.0.0.1)]
