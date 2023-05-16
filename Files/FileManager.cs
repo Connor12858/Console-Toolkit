@@ -32,5 +32,15 @@ namespace Console_Toolkit.Files
         {
             return Path.Combine(paths);
         }
+
+        // Save text to a file
+        public static void CreateTextFile (string path, string text)
+        {
+            
+        }
+        public static void CreateTextFile(string path, string[] text)
+        {
+
+        }
     }
 }
