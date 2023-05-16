@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.Remoting;
 using System.Threading;
 
 namespace Console_Toolkit
@@ -46,37 +47,43 @@ namespace Console_Toolkit
                 Menu();
             }
 
-            // Analyze the input for commands
-            List<string> commands = input.Split(' ').ToList();
-            if (commands.Count == 0)
+            // Check if the input is empty
+            else if (input.Length == 0)
             {
                 Menu();
             }
 
-            // If no method than run the main
-            if (commands.Count == 1)
+            // Analyze the input for commands
+            List<string> commands = input.Split(' ').ToList();
+
+            // Variables to determine the method to call
+            // Detect if we need to use the main method or not
+            string classType = commands[0];
+            string methodName = "Main";
+            if (commands.Count >= 2)
             {
-                commands.Add("Main");
+                methodName = commands[1];
             }
 
-            // Execute the method
-            Type type = Type.GetType("Console_Toolkit." + commands[0]);
-            if (type != null)
-            {
-                MethodInfo method = type.GetMethod(commands[1]);
+            // Drop the first 2 items to make it a list of argumens
+            commands.Remove(classType);
+            commands.Remove(methodName);
 
-                if (method != null)
-                {
-                    method.Invoke(null, null);
-                } else
-                {
-                    Console.WriteLine(Help());
-                }
-            } else
+            // Create an array from the commands
+            object[] args = commands.ToArray();
+
+            // Execute the method
+            var method = ToolkitMethods.RetrieveMethod(classType, methodName);
+            if (method != null)
+            {
+                method.Invoke(null, args);
+            }
+            else
             {
                 Console.WriteLine(Help());
             }
 
+            // Runs the menu program again
             Menu();
         }
 
@@ -93,64 +100,6 @@ namespace Console_Toolkit
 
             // Return the text
             return helpMenu;
-        }
-
-        // Network Menu
-        static void Network()
-        {
-            Console.Clear();
-            Console.WriteLine("==========================");
-            Console.WriteLine("        NETWORK MENU      ");
-            Console.WriteLine("==========================");
-
-            //Runs the command line
-            //Console.Write("Directory.{0} >  ", directoryLocation);
-
-            //Gets user input on the acion to take
-            string input = Console.ReadLine();
-
-            //if input is 'get' than retrieve computer ip
-            if (input == "get")
-            {
-                //Gets the Computer name
-                //computerName = Dns.GetHostName();
-
-                //Stores all ips of computer to access
-                //IPAddress[] ipaddress = Dns.GetHostAddresses(computerName);
-
-                //Gets the IPv4
-                //foreach (IPAddress ip4 in ipaddress.Where(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork))
-                //{
-                    //ipv4 = ip4.ToString();
-                //}
-
-                //Gets the IPv6
-                //foreach (IPAddress ip6 in ipaddress.Where(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6))
-                //{
-                //    ipv6 = ip6.ToString();
-                //}
-
-                //Runs the IP again
-                Thread.Sleep(500);
-                Console.Clear();
-                //IP();
-            }
-
-            //Shows IP
-            else if (input == "show")
-            {
-               // Console.WriteLine("Computer Name: " + computerName + "\nIPv4: " + ipv4 + "\nIPv6: " + ipv6);
-                Console.ReadLine();
-                //IP();
-            }
-
-            //Runs this function again is none command is vaild
-            else
-            {
-                Console.Clear();
-                Console.WriteLine("\nInvald Command");
-                //IP();
-            }
         }
 
         //Ends process
