@@ -10,5 +10,17 @@ namespace Console_Toolkit
             Console.WriteLine("File Main");
             Console.ReadKey();
         }
+
+        public static void Rename()
+        {
+            Console.WriteLine("File Rename");
+            Console.ReadKey();
+        }
+
+        public static void Purge()
+        {
+            Console.WriteLine("File Purge");
+            Console.ReadKey();
+        }
     }
 }
