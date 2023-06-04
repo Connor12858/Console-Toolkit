@@ -7,7 +7,7 @@ namespace Console_Toolkit
     {
         public static void Main()
         {
-            Console.WriteLine("File Main");
+            ToolkitMethods.Menu("File Manager");
             Console.ReadKey();
         }
 
@@ -17,7 +17,7 @@ namespace Console_Toolkit
             Console.ReadKey();
         }
 
-        public static void Purge()
+        public static void Purge(bool deleteAll = true, string fileType = ".txt")
         {
             Console.WriteLine("File Purge");
             Console.ReadKey();

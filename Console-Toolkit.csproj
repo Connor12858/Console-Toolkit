@@ -65,6 +65,7 @@
     <Compile Include="Networks\Network.cs" />
     <Compile Include="Files\File.cs" />
     <Compile Include="Networks\NetworkManager.cs" />
+    <Compile Include="ProgramCommonVariables.cs" />
     <Compile Include="ToolkitMethods.cs" />
     <Content Include="ProgramOld.cs.txt" />
     <Compile Include="Program.cs" />

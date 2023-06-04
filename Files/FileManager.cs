@@ -33,6 +33,13 @@ namespace Console_Toolkit.Files
             return Path.Combine(paths);
         }
 
+        //Check line count from a file
+        public static int LineCount(string path)
+        {
+            string[] lines = System.IO.File.ReadAllLines(path);
+            return lines.Length;
+        }
+
         // Save text to a file
         public static void CreateTextFile (string path, string text)
         {

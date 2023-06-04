@@ -1,7 +1,4 @@
-﻿//Created By ThatDevConnor
-//TODO:
-//Delete subfolder files
-//Copy subfolder files
+﻿//Created By Connor12858
 
 using Console_Toolkit.Files;
 using System;
@@ -17,13 +14,11 @@ using System.Threading;
 
 namespace Console_Toolkit
 {
-    class Program
+    internal class Program
     {
         // Runs at the beginning of the program
         static void Main()
         {
-            // Run setups for the managers
-
             // Display inital Menu title
             Console.WriteLine(ToolkitMethods.Menu("menu"));
 
@@ -88,7 +83,7 @@ namespace Console_Toolkit
         }
 
         // Returns the help display
-        public static string Help()
+        private static string Help()
         {
             string helpMenu = "";
 
