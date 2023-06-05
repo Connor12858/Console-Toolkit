@@ -11,6 +11,16 @@ namespace Console_Toolkit
 {
     internal class Network
     {
+        // All the parsers for access
+        private static ArgumentParser parserIPInfo;
+
+        public static void Start()
+        {
+            // Setup the arugment parser for IPInfo
+            ArgumentParser parserIPInfo = new ArgumentParser();
+            parserIPInfo.AddArgument<string>("-ip", "127.0.0.1");
+        }
+
         public static void Main()
         {
             // Setup the menu for the main method
@@ -31,22 +41,25 @@ namespace Console_Toolkit
             ToolkitMethods.CommandEntry(input, "Network");
         }
 
-        public static void IPInfo(string arg)
+        public static void IPInfo(string optional1="-ip:127.0.0.1")
         {
-            // Setup the arugment parser for this method
-            ArgumentParser parser = new ArgumentParser();
-
-            // Add the arguments
-            parser.AddArgument<string>("-ip", "127.0.0.1");
-
             // Take the values from the passed args
-            parser.BreakdownArgs(arg);
+            Console.WriteLine();
+            parserIPInfo.BreakdownArgs(optional1);
+            Console.WriteLine();
 
             // Get the value
-            string ipAddress = parser.GetArgumentValue("-ip");
+            string ipAddress = parserIPInfo.GetArgumentValue("-ip");
 
-            Console.WriteLine(ipAddress);
-            Console.ReadKey();
+            // Check if the IP is online
+            if (NetworkManager.IPOnline(ipAddress))
+            {
+                Console.WriteLine(ipAddress);
+            }
+            else
+            {
+                Console.WriteLine("IP Address is not online to check");
+            }
         }
 
         public static void IPAddress(string args)
@@ -77,7 +90,7 @@ namespace Console_Toolkit
             // Reead the menu from a text file
             for (int i = 0; i < FileManager.LineCount("..\\..\\ProgramFiles\\HelpMenu.txt"); i++)
             {
-                if(i != 2 && i != 3 && i != 5 && i != 6 && i != 4)
+                if (i != 2 && i != 3 && i != 5 && i != 6 && i != 4)
                 {
                     helpMenu += lines[i] + "\n";
                 }

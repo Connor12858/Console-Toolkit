@@ -19,6 +19,9 @@ namespace Console_Toolkit
         // Runs at the beginning of the program
         public static void Main()
         {   
+            //Initals the parser for running
+            Network.Start();
+
             // Display inital Menu title
             Console.WriteLine(ToolkitMethods.Menu("Program"));
 

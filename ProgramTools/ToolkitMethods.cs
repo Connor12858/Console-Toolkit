@@ -226,14 +226,37 @@ namespace Console_Toolkit
                 commands.Remove(classType);
                 commands.Remove(methodName);
 
-                // Turn the commands to an arugment array of just a string
-                object[] args = { string.Join(" ", commands.ToArray()) };
+                // Turn the commands an array of provided commands
+                string[] providedArgs = commands.ToArray();
+                Console.WriteLine(providedArgs.Length);
 
                 // Execute the method
                 var method = ToolkitMethods.RetrieveMethod(classType, methodName);
                 if (method != null)
                 {
+                    // Set the needed parameters and use default if not given
+                    var parameters = method.GetParameters();
+                    Console.WriteLine(parameters.Length);
+                    object[] args = new object[parameters.Length];
+                    for (int i = 0; i < args.Length; i++)
+                    {
+                        if (i < providedArgs.Length)
+                        {
+                            args[i] = providedArgs[i];
+                        }
+                        else if (parameters[i].HasDefaultValue)
+                        {
+                            Console.WriteLine(parameters[i].DefaultValue);
+                            args[i] = parameters[i].DefaultValue;
+                        }
+                        else
+                        {
+                            throw new ArgumentException("Not enough arguments provided");
+                        }
+                    }
+
                     method.Invoke(null, args);
+                    classMenu.Invoke(null, new object[] { });
                 }
                 else
                 {
