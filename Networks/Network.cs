@@ -5,6 +5,7 @@ using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using Console_Toolkit.Files;
+using Console_Toolkit.ProgramTools;
 
 namespace Console_Toolkit
 {
@@ -16,65 +17,39 @@ namespace Console_Toolkit
             Console.Clear();
             Console.WriteLine(ToolkitMethods.Menu("Network"));
 
+            // Runt the input menu
+            Menu();
+        }
+
+        public static void Menu()
+        {
             // Runs the command line
             Console.Write("Console >  ");
 
             // Gets user input on the acion to take
             string input = Console.ReadLine();
-
-            // Check for clear command
-            if (input.ToLower() == "cls" || input.ToLower() == "clear")
-            {
-                ToolkitMethods.ClearScreen("Network");
-                Main();
-            }
-
-            // Check if the input is empty
-            else if (input.Length == 0)
-            {
-                Main();
-            }
-
-            // Analyze the input for commands
-            List<string> commands = input.Split(' ').ToList();
-
-            // Variables to determine the method to call
-            // Detect if we need to use the main method or not
-            string classType = commands[0];
-            string methodName = "Main";
-            if (commands.Count >= 2)
-            {
-                methodName = commands[1];
-            }
-
-            // Drop the first 2 items to make it a list of argumens
-            commands.Remove(classType);
-            commands.Remove(methodName);
-
-            // Create an array from the commands
-            object[] args = commands.ToArray();
-
-            // Execute the method
-            var method = ToolkitMethods.RetrieveMethod(classType, methodName);
-            if (method != null)
-            {
-                method.Invoke(null, args);
-            }
-            else
-            {
-                Console.WriteLine(ToolkitMethods.Help("Network"));
-            }
-
-            Console.ReadKey();
+            ToolkitMethods.CommandEntry(input, "Network");
         }
 
-        public static void IPInfo(string args = "127.0.0.1")
+        public static void IPInfo(string arg)
         {
-            Console.WriteLine("Network IPInfo");
+            // Setup the arugment parser for this method
+            ArgumentParser parser = new ArgumentParser();
+
+            // Add the arguments
+            parser.AddArgument<string>("-ip", "127.0.0.1");
+
+            // Take the values from the passed args
+            parser.BreakdownArgs(arg);
+
+            // Get the value
+            string ipAddress = parser.GetArgumentValue("-ip");
+
+            Console.WriteLine(ipAddress);
             Console.ReadKey();
         }
 
-        public static void IPAddress(bool retrunMenu = true)
+        public static void IPAddress(string args)
         {
             for (int i = 0; i < 256; i++)
             {

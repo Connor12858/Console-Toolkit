@@ -14,6 +14,15 @@ namespace Console_Toolkit
         // Creates a menu display
         public static string Menu(string title)
         {
+            // Change title to match entry of script name
+            if (title == "Program")
+            {
+                title = "Menu";
+            } else
+            {
+                title += " Manager";
+            }
+
             // Declare empty string
             string menu = "";
 
@@ -97,34 +106,27 @@ namespace Console_Toolkit
         // Find the start and end for a block of code
         private static int BlockCodeLocator(int min, string[] lines)
         {
-            // Default it to 0
-            int max = 0;
-
             // Check all lines
-            for (int i = min; i < lines.Length; i++)
+            for (int i = min + 1; i < lines.Length; i++)
             {
                 // Only if it is not the last line
                 if (i != lines.Length - 1)
                 {
                     // Check if the first word is a word and not an indent
                     string[] words = lines[i].Split(' ');
-                    if (words[0] != " ")
+                    if (words[0] != "")
                     {
-                        max = i - 1;
-                        break;
+                        return i - 2;
                     }
-                } else
-                // If it is than we can tell it is the last block
-                {
-                    max = lines.Length - 1;
                 }
             }
 
-            return max;
+            // If we reached here than return the end
+            return lines.Length - 1;
         }
 
         // Return the parts of the help menu text, for each part that needs it
-        public static string Help(string lineName = "")
+        public static string Help(string lineName)
         {
             // Set the need info for disecting the text file
             string helpMenu = "";
@@ -132,9 +134,15 @@ namespace Console_Toolkit
             int min = ProgramCommonVariables.HelpMenuLength - 1;
             int max = lines.Length - 1;
 
+            // Add the first lines no matter what
+            for (int i = 0; i < ProgramCommonVariables.HelpMenuLength; i++)
+            {
+                helpMenu += lines[i] + "\n";
+            }
+
             // Find the max and min for the block of code
             // Unless no line name is given we use all of it
-            if (lineName != "")
+            if (lineName != "Program")
             {
                 // Loops through all lines to detect if the first word is the first line of the block
                 for (int i = 0; i < FileManager.LineCount("..\\..\\ProgramFiles\\HelpMenu.txt"); i++)
@@ -147,12 +155,9 @@ namespace Console_Toolkit
 
                 // Find the last line for the block of text
                 max = BlockCodeLocator(min, lines);
-            }
 
-            // Add the first lines no matter what
-            for (int i = 0; i < ProgramCommonVariables.HelpMenuLength; i++)
-            {
-                helpMenu += lines[i] + "\n";
+                // Add the Back help line manually only when not Program
+                helpMenu += "Back - Takes you back to the Main Menu\n\n";
             }
 
             // Add the min and max text, only need to check for lines after 3 since always added
@@ -166,6 +171,76 @@ namespace Console_Toolkit
 
             // Return the text
             return helpMenu;
+        }
+
+        // Takes input for dynamic entry of running a method
+        public static void CommandEntry(string input, string className)
+        {
+            // Get the main of the class for when we need to run it
+            var classMenu = ToolkitMethods.RetrieveMethod(className, "Menu");
+
+            // Check for clear command
+            if (input.ToLower() == "cls" || input.ToLower() == "clear")
+            {
+                ToolkitMethods.ClearScreen(className);
+                classMenu.Invoke(null, new object[] { });
+            }
+
+            // Check if the 'Back' command was entered and can be used
+            else if (input.ToLower() == "back")
+            {
+                if (className != "Program")
+                {
+                    Console.Clear();
+                    Program.Main();
+                }
+                else
+                {
+                    Console.WriteLine("\nThere is no menu to go back to\n");
+                    classMenu.Invoke(null, new object[] { });
+                }
+            }
+
+            // Check if the input is empty
+            else if (input.Length == 0)
+            {
+                classMenu.Invoke(null, new object[] { });
+            }
+
+            // Does not match so run the dynamic search
+            else
+            {
+                // Analyze the input for commands
+                List<string> commands = input.Split(' ').ToList();
+
+                // Variables to determine the method to call
+                // Detect if we need to use the main method or not
+                string classType = commands[0];
+                string methodName = "Main";
+                if (commands.Count >= 2)
+                {
+                    methodName = commands[1];
+                }
+
+                // Drop the first 2 items to make it a list of arguments
+                commands.Remove(classType);
+                commands.Remove(methodName);
+
+                // Turn the commands to an arugment array of just a string
+                object[] args = { string.Join(" ", commands.ToArray()) };
+
+                // Execute the method
+                var method = ToolkitMethods.RetrieveMethod(classType, methodName);
+                if (method != null)
+                {
+                    method.Invoke(null, args);
+                }
+                else
+                {
+                    Console.WriteLine(Help(className));
+                    classMenu.Invoke(null, new object[] { });
+                }
+            }
         }
     }
 }

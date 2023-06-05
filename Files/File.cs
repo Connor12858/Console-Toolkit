@@ -1,5 +1,7 @@
 ﻿using Console_Toolkit.Files;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Console_Toolkit
 {
@@ -7,8 +9,22 @@ namespace Console_Toolkit
     {
         public static void Main()
         {
-            ToolkitMethods.Menu("File Manager");
-            Console.ReadKey();
+            // Setup the menu for the main method
+            Console.Clear();
+            Console.WriteLine(ToolkitMethods.Menu("File"));
+
+            // Runt the input menu
+            Menu();
+        }
+
+        public static void Menu()
+        {
+            // Runs the command line
+            Console.Write("Console >  ");
+
+            // Gets user input on the acion to take
+            string input = Console.ReadLine();
+            ToolkitMethods.CommandEntry(input, "File");
         }
 
         public static void Rename()

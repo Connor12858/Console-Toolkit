@@ -9,6 +9,6 @@ namespace Console_Toolkit
     class ProgramCommonVariables
     {
         public static string HelpFilePath = "..\\..\\ProgramFiles\\HelpMenu.txt";
-        public static int HelpMenuLength = 12;
+        public static int HelpMenuLength = 14;
     }
 }
