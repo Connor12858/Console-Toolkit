@@ -52,55 +52,65 @@ namespace Console_Toolkit.ProgramTools
 
         // Take the argument string given and add it the parser stored args
         // Does 1 arg at a time
-        public void BreakdownArgs(string arg)
+        public bool BreakdownArgs(string[] args)
         {
             // Try to do this unless it is not valid
             try
             {
-                // Split the args to check for each one
-                string[] argsList = arg.Split(':');
-
-                // Only if we have args and even 
-                if (argsList.Count() != 0 && argsList.Count() % 2 == 0)
+                foreach (string arg in args)
                 {
-                    if (ArgIsReal(argsList[0]))
+                    // Split the args to check for each one
+                    string[] argsList = arg.Split('?');
+
+                    // Only if we have args and even 
+                    if (argsList.Count() != 0 && argsList.Count() % 2 == 0)
                     {
-                        // Look for a matching arg
-                        for (int x = 0; x < this.args.Count; x++)
+                        if (ArgIsReal(argsList[0]))
                         {
-                            // If it is the arg than assign new value
-                            if (this.args[x].Item1 == argsList[0])
+                            // Look for a matching arg
+                            for (int x = 0; x < this.args.Count; x++)
                             {
-                                // Try 
-                                try
+                                // If it is the arg than assign new value
+                                if (this.args[x].Item1 == argsList[0])
                                 {
-                                    // Set the new value, need a temp obj
-                                    (string, dynamic) d = this.args[x];
-                                    d.Item2 = Convert.ChangeType(argsList[1], this.args[x].Item2.GetType());
-                                    this.args[x] = d;
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine(ex.Message);
+                                    // Try it
+                                    try
+                                    {
+                                        // Set the new value, need a temp obj
+                                        (string, dynamic) d = this.args[x];
+                                        d.Item2 = Convert.ChangeType(argsList[1], this.args[x].Item2.GetType());
+                                        this.args[x] = d;
+                                        return true;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                        return false;
+                                    }
                                 }
                             }
                         }
+                        else
+                        // Raise exception that it is not real
+                        {
+                            throw new Exception("Argument given is not a real argument");
+                        }
                     }
+                    // Raise exception that they do not match
                     else
-                    // Raise exception that it is not real
                     {
-                        throw new Exception("Argument given is not a real argument");
+                        throw new Exception("Arguments given do not match what is needed");
                     }
-                }
-                else
-                {
-                    throw new Exception("Arguments given do not match what is needed");
                 }
             }
+            // Output and return not properly parsed
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                return false;
             }
+
+            return false;
         }
 
         // Get the value of an arg

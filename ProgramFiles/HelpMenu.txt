@@ -3,8 +3,8 @@
 
 First indent: The the type of command ie. Network (Case Sensitive)
 Second indent: The command to be used ie. IPInfo
-Third indent: Parameters for the command ie. -ip:156.65.98.135
-Example Command: Network IPInfo -ip:156.65.98.135
+Third indent: Parameters for the command ie. -ip?156.65.98.135
+Example Command: Network IPInfo -ip?156.65.98.135
 
 ToolkitMethods - Unintentional cutomization ig
     ClearScreen - Clear the screen
@@ -15,10 +15,11 @@ ToolkitMethods - Unintentional cutomization ig
 File - Takes you to 'File Menu'
     Rename - Mass rename documents
     Purge - Purge a directory of all documents or types
-        [-d:'true'] - Delete all files
-        (-t:'txt') - File extension to delete
+        [-p?'path\to\folder'] - Path to the foloder
+        [-d?'true'] - Delete all files
+        (-t?'txt') - File extension to delete
 
 Network - Takes you to 'Network Menu'
     IPAddress - Displays the ipaddress online on your network
     IPInfo - Retrieves the IP info of a given ip address
-        [-ip:'127.0.0.1'] - IP Address to retrieve from
+        [-ip?'127.0.0.1'] - IP Address to retrieve from

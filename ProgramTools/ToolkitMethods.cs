@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,8 @@ namespace Console_Toolkit
             if (title == "Program")
             {
                 title = "Menu";
-            } else
+            }
+            else
             {
                 title += " Manager";
             }
@@ -178,91 +180,95 @@ namespace Console_Toolkit
         {
             // Get the main of the class for when we need to run it
             var classMenu = ToolkitMethods.RetrieveMethod(className, "Menu");
-
-            // Check for clear command
-            if (input.ToLower() == "cls" || input.ToLower() == "clear")
+            try
             {
-                ToolkitMethods.ClearScreen(className);
-                classMenu.Invoke(null, new object[] { });
-            }
-
-            // Check if the 'Back' command was entered and can be used
-            else if (input.ToLower() == "back")
-            {
-                if (className != "Program")
+                // Check for clear command
+                if (input.ToLower() == "cls" || input.ToLower() == "clear")
                 {
-                    Console.Clear();
-                    Program.Main();
-                }
-                else
-                {
-                    Console.WriteLine("\nThere is no menu to go back to\n");
+                    ToolkitMethods.ClearScreen(className);
                     classMenu.Invoke(null, new object[] { });
                 }
-            }
 
-            // Check if the input is empty
-            else if (input.Length == 0)
-            {
-                classMenu.Invoke(null, new object[] { });
-            }
-
-            // Does not match so run the dynamic search
-            else
-            {
-                // Analyze the input for commands
-                List<string> commands = input.Split(' ').ToList();
-
-                // Variables to determine the method to call
-                // Detect if we need to use the main method or not
-                string classType = commands[0];
-                string methodName = "Main";
-                if (commands.Count >= 2)
+                // Check if the 'Back' command was entered and can be used
+                else if (input.ToLower() == "back")
                 {
-                    methodName = commands[1];
+                    if (className != "Program")
+                    {
+                        Console.Clear();
+                        Program.Main();
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nThere is no menu to go back to\n");
+                        classMenu.Invoke(null, new object[] { });
+                    }
                 }
 
-                // Drop the first 2 items to make it a list of arguments
-                commands.Remove(classType);
-                commands.Remove(methodName);
-
-                // Turn the commands an array of provided commands
-                string[] providedArgs = commands.ToArray();
-                Console.WriteLine(providedArgs.Length);
-
-                // Execute the method
-                var method = ToolkitMethods.RetrieveMethod(classType, methodName);
-                if (method != null)
+                // Check if the input is empty
+                else if (input.Length == 0)
                 {
-                    // Set the needed parameters and use default if not given
-                    var parameters = method.GetParameters();
-                    Console.WriteLine(parameters.Length);
-                    object[] args = new object[parameters.Length];
-                    for (int i = 0; i < args.Length; i++)
+                    classMenu.Invoke(null, new object[] { });
+                }
+
+                // Does not match so run the dynamic search
+                else
+                {
+                    // Analyze the input for commands
+                    List<string> commands = input.Split(' ').ToList();
+
+                    // Variables to determine the method to call
+                    // Detect if we need to use the main method or not
+                    string classType = commands[0];
+                    string methodName = "Main";
+                    if (commands.Count >= 2)
                     {
-                        if (i < providedArgs.Length)
-                        {
-                            args[i] = providedArgs[i];
-                        }
-                        else if (parameters[i].HasDefaultValue)
-                        {
-                            Console.WriteLine(parameters[i].DefaultValue);
-                            args[i] = parameters[i].DefaultValue;
-                        }
-                        else
-                        {
-                            throw new ArgumentException("Not enough arguments provided");
-                        }
+                        methodName = commands[1];
                     }
 
-                    method.Invoke(null, args);
-                    classMenu.Invoke(null, new object[] { });
+                    // Drop the first 2 items to make it a list of arguments
+                    commands.Remove(classType);
+                    commands.Remove(methodName);
+
+                    // Turn the commands an array of provided commands
+                    string[] providedArgs = commands.ToArray();
+
+                    // Execute the method
+                    var method = ToolkitMethods.RetrieveMethod(classType, methodName);
+                    if (method != null)
+                    {
+                        // Set the needed parameters and use default if not given
+                        var parameters = method.GetParameters();
+                        object[] args = new object[parameters.Length];
+                        for (int i = 0; i < args.Length; i++)
+                        {
+                            if (i < providedArgs.Length)
+                            {
+                                args[i] = providedArgs[i];
+                            }
+                            else if (parameters[i].HasDefaultValue)
+                            {
+                                args[i] = parameters[i].DefaultValue;
+                            }
+                            else
+                            {
+                                throw new ArgumentException("Not enough arguments provided");
+                            }
+                        }
+
+                        method.Invoke(null, args);
+                        classMenu.Invoke(null, new object[] { });
+                    }
+                    else
+                    {
+                        Console.WriteLine(Help(className));
+                        classMenu.Invoke(null, new object[] { });
+                    }
                 }
-                else
-                {
-                    Console.WriteLine(Help(className));
-                    classMenu.Invoke(null, new object[] { });
-                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("\n" + e.Message + "\n");
+                classMenu.Invoke(null, new object[] { });
             }
         }
     }

@@ -12,12 +12,11 @@ namespace Console_Toolkit
     internal class Network
     {
         // All the parsers for access
-        private static ArgumentParser parserIPInfo;
+        private static ArgumentParser parserIPInfo = new ArgumentParser();
 
+        // Setup the parsers
         public static void Start()
         {
-            // Setup the arugment parser for IPInfo
-            ArgumentParser parserIPInfo = new ArgumentParser();
             parserIPInfo.AddArgument<string>("-ip", "127.0.0.1");
         }
 
@@ -41,25 +40,32 @@ namespace Console_Toolkit
             ToolkitMethods.CommandEntry(input, "Network");
         }
 
-        public static void IPInfo(string optional1="-ip:127.0.0.1")
+        public static void IPInfo(string ip)
         {
             // Take the values from the passed args
             Console.WriteLine();
-            parserIPInfo.BreakdownArgs(optional1);
+            string[] args = { ip };
+            bool parsed = parserIPInfo.BreakdownArgs(args);
+
+            // If it is correctly parsed than we run
+            if (parsed)
+            {
+                // Get the value
+                string ipAddress = parserIPInfo.GetArgumentValue("-ip");
+
+                // Check if the IP is online
+                if (NetworkManager.IPOnline(ipAddress))
+                {
+                    Console.WriteLine(ipAddress);
+                }
+                else
+                {
+                    Console.WriteLine("IP Address is not online to check");
+                }
+            }
+
+            // Keep it outputted nice
             Console.WriteLine();
-
-            // Get the value
-            string ipAddress = parserIPInfo.GetArgumentValue("-ip");
-
-            // Check if the IP is online
-            if (NetworkManager.IPOnline(ipAddress))
-            {
-                Console.WriteLine(ipAddress);
-            }
-            else
-            {
-                Console.WriteLine("IP Address is not online to check");
-            }
         }
 
         public static void IPAddress(string args)

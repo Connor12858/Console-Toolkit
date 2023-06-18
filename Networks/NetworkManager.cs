@@ -11,16 +11,24 @@ namespace Console_Toolkit.Networks
     {
         public static bool IPOnline(string ip)
         {
-            Ping ping;
-            PingReply pingReply;
-
-            ping = new Ping();
-            pingReply = ping.Send(ip);
-            if (pingReply.Status == IPStatus.Success)
+            try
             {
-                return true;
-            } else { 
-                return false; 
+                Ping ping;
+                PingReply pingReply;
+
+                ping = new Ping();
+                pingReply = ping.Send(ip);
+                if (pingReply.Status == IPStatus.Success)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            } catch (Exception e)
+            {
+                return false;
             }
         }
     }

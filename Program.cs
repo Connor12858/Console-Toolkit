@@ -21,6 +21,7 @@ namespace Console_Toolkit
         {   
             //Initals the parser for running
             Network.Start();
+            File.Start();
 
             // Display inital Menu title
             Console.WriteLine(ToolkitMethods.Menu("Program"));
