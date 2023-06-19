@@ -2,23 +2,20 @@
 using Console_Toolkit.ProgramTools;
 using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 
 namespace Console_Toolkit
 {
     internal class File
     {
         // All the parsers for access
-        private static ArgumentParser parserPurge = new ArgumentParser();
+        private readonly static ArgumentParser parserPurge = new ArgumentParser();
 
         // Setup the parsers
         public static void Start()
         {
             //Setup the paser for Purge
             parserPurge.AddArgument<bool>("-d", "true");
-            parserPurge.AddArgument<string>("-f", "txt");
+            parserPurge.AddArgument<string>("-t", "txt");
             parserPurge.AddArgument<string>("-p", @"path\to\the\folder");
         }
 
@@ -49,7 +46,7 @@ namespace Console_Toolkit
             Console.ReadKey();
         }
 
-        public static void Purge(string p, string d, string t="txt")
+        public static void Purge(string p, string d, string t="-t?txt")
         {
             // Take the values from the passed args
             Console.WriteLine();
@@ -61,21 +58,36 @@ namespace Console_Toolkit
             {
                 try
                 {
-                    Console.WriteLine(parserPurge.GetArgumentValue("-p"));
                     // Get the path to the folder
-                    string folderPath = Environment.GetFolderPath(parserPurge.GetArgumentValue("-p"));
+                    string folderPath = parserPurge.GetArgumentValue("-p");
+                    bool delete = parserPurge.GetArgumentValue("-d");
+                    string type = "." + parserPurge.GetArgumentValue("-t");
 
                     // Check if we delete everything or just a file type
-                    if (parserPurge.GetArgumentValue("-d"))
+                    if (delete)
                     {
-                        Console.WriteLine("Delete All");
+                        // Tell the user
+                        Console.WriteLine($"Deleting all files in '{folderPath}'...");
+
+                        // Get the directory
+                        DirectoryInfo di = new DirectoryInfo(folderPath);
+
+                        // Remove all the base sales - uses recursion to delete sub folders
+                        int count = FileManager.DeleteFolderFiles(di, ".*");
+                        Console.WriteLine($"Deleted {count} files");
                     }
                     else
                     {
+                        Console.WriteLine($"Deleting all files in '{folderPath}' that have a {type} extension...");
 
-                        Console.WriteLine("Delete " + parserPurge.GetArgumentValue("-t"));
+                        // Get the directory
+                        DirectoryInfo di = new DirectoryInfo(folderPath);
+
+                        // Remove all the base sales - uses recursion to delete sub folders
+                        int count = FileManager.DeleteFolderFiles(di, type);
+                        Console.WriteLine($"Deleted {count} files");
                     }
-                } catch (Exception e) { Console.WriteLine("Not a valid File Path"); }
+                } catch (Exception e) { Console.WriteLine(e.Message); }
             }
 
             Console.WriteLine();

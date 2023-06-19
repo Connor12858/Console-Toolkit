@@ -1,16 +1,4 @@
-﻿// Created By Connor12858
-
-using Console_Toolkit.Files;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Runtime.Remoting;
-using System.Threading;
+﻿using System;
 
 namespace Console_Toolkit
 {
@@ -18,7 +6,7 @@ namespace Console_Toolkit
     {
         // Runs at the beginning of the program
         public static void Main()
-        {   
+        {
             //Initals the parser for running
             Network.Start();
             File.Start();
@@ -39,12 +27,6 @@ namespace Console_Toolkit
             // Gets user input on the acion to take
             string input = Console.ReadLine();
             ToolkitMethods.CommandEntry(input, "Program");
-        }
-
-        //Ends process
-        static void QuitApplication(int exitCode)
-        {
-            Environment.Exit(exitCode);
         }
     }
 }

@@ -1,12 +1,8 @@
 ﻿using Console_Toolkit.Files;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Console_Toolkit
 {
@@ -178,8 +174,11 @@ namespace Console_Toolkit
         // Takes input for dynamic entry of running a method
         public static void CommandEntry(string input, string className)
         {
+            // Remove whitespace on the sides
+            input = input.Trim();
+
             // Get the main of the class for when we need to run it
-            var classMenu = ToolkitMethods.RetrieveMethod(className, "Menu");
+            var classMenu = RetrieveMethod(className, "Menu");
             try
             {
                 // Check for clear command
@@ -192,7 +191,7 @@ namespace Console_Toolkit
                 // Check if the 'Back' command was entered and can be used
                 else if (input.ToLower() == "back")
                 {
-                    if (className != "Program")
+                    if (className != "Program" && ProgramCommonVariables.mangerList.Contains(className))
                     {
                         Console.Clear();
                         Program.Main();
@@ -216,6 +215,12 @@ namespace Console_Toolkit
                     // Analyze the input for commands
                     List<string> commands = input.Split(' ').ToList();
 
+                    // Check if input contains a class value, if not add the default class name
+                    if (!ProgramCommonVariables.mangerList.Contains(commands[0]))
+                    {
+                        commands.Insert(0, className);
+                    }
+
                     // Variables to determine the method to call
                     // Detect if we need to use the main method or not
                     string classType = commands[0];
@@ -228,6 +233,32 @@ namespace Console_Toolkit
                     // Drop the first 2 items to make it a list of arguments
                     commands.Remove(classType);
                     commands.Remove(methodName);
+
+                    // Compound the quoted text 
+                    for(int i  = 0; i < commands.Count - 1; i++)
+                    {
+                        if (commands[i].StartsWith(Convert.ToString('"')))
+                        {
+                            while (!commands[i].EndsWith(Convert.ToString('"')))
+                            {
+                                commands[i] += " " + commands[i + 1];
+                                commands.RemoveAt(i + 1);
+                            }
+                        }
+                    }
+
+                    // Check for even amount
+                    if (commands.Count / 2 == 0)
+                    {
+                        throw new Exception("Wrong Argument Configuration");
+                    }
+
+                    // Compound them to work for the argument parser - which I made work weridly so we finna format this shi
+                    for (int i = 0; i < commands.Count - 1; i++)
+                    {
+                        commands[i] += "?" + commands[i + 1];
+                        commands.RemoveAt(i + 1);
+                    }
 
                     // Turn the commands an array of provided commands
                     string[] providedArgs = commands.ToArray();

@@ -1,9 +1,5 @@
 ﻿using Console_Toolkit.Networks;
 using System;
-using System.Net.NetworkInformation;
-using System.Net;
-using System.Collections.Generic;
-using System.Linq;
 using Console_Toolkit.Files;
 using Console_Toolkit.ProgramTools;
 
@@ -12,7 +8,7 @@ namespace Console_Toolkit
     internal class Network
     {
         // All the parsers for access
-        private static ArgumentParser parserIPInfo = new ArgumentParser();
+        private readonly static ArgumentParser parserIPInfo = new ArgumentParser();
 
         // Setup the parsers
         public static void Start()
@@ -68,7 +64,7 @@ namespace Console_Toolkit
             Console.WriteLine();
         }
 
-        public static void IPAddress(string args)
+        public static void IPAddress()
         {
             for (int i = 0; i < 256; i++)
             {
@@ -85,26 +81,6 @@ namespace Console_Toolkit
 
             }
             Console.ReadKey();
-        }
-
-        private static string Help()
-        {
-            string helpMenu = "";
-            string[] lines = FileManager.ReadFromFile(ProgramCommonVariables.HelpFilePath);
-
-
-            // Reead the menu from a text file
-            for (int i = 0; i < FileManager.LineCount("..\\..\\ProgramFiles\\HelpMenu.txt"); i++)
-            {
-                if (i != 2 && i != 3 && i != 5 && i != 6 && i != 4)
-                {
-                    helpMenu += lines[i] + "\n";
-                }
-            }
-
-            // Return the text
-            return helpMenu;
-
         }
     }
 }

@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Console_Toolkit.ProgramTools
 {
     internal class ArgumentParser
     {
         // A List of the arguments for the parser
-        private List<(string, dynamic)> args;
+        private readonly List<(string, dynamic)> args;
 
         // Create the object
         public ArgumentParser()
@@ -45,11 +41,6 @@ namespace Console_Toolkit.ProgramTools
             return false;
         }
 
-        private void SetArgValue(string arg, string value)
-        {
-
-        }
-
         // Take the argument string given and add it the parser stored args
         // Does 1 arg at a time
         public bool BreakdownArgs(string[] args)
@@ -62,31 +53,28 @@ namespace Console_Toolkit.ProgramTools
                     // Split the args to check for each one
                     string[] argsList = arg.Split('?');
 
+                    // Remove qoutes if they exsist
+                    if (argsList[1].StartsWith("'") && argsList[1].EndsWith("'"))
+                    {
+                        argsList[1] = argsList[1].Substring(1, argsList[1].Length - 2);
+                    }
+
                     // Only if we have args and even 
                     if (argsList.Count() != 0 && argsList.Count() % 2 == 0)
                     {
                         if (ArgIsReal(argsList[0]))
                         {
+
                             // Look for a matching arg
                             for (int x = 0; x < this.args.Count; x++)
                             {
                                 // If it is the arg than assign new value
                                 if (this.args[x].Item1 == argsList[0])
                                 {
-                                    // Try it
-                                    try
-                                    {
-                                        // Set the new value, need a temp obj
-                                        (string, dynamic) d = this.args[x];
-                                        d.Item2 = Convert.ChangeType(argsList[1], this.args[x].Item2.GetType());
-                                        this.args[x] = d;
-                                        return true;
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine(ex.Message);
-                                        return false;
-                                    }
+                                    // Set the new value, need a temp obj
+                                    (string, dynamic) d = this.args[x];
+                                    d.Item2 = Convert.ChangeType(argsList[1], this.args[x].Item2.GetType());
+                                    this.args[x] = d;
                                 }
                             }
                         }
@@ -110,7 +98,7 @@ namespace Console_Toolkit.ProgramTools
                 return false;
             }
 
-            return false;
+            return true;
         }
 
         // Get the value of an arg

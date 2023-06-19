@@ -68,13 +68,13 @@
     <Compile Include="ProgramTools\ArgumentParser.cs" />
     <Compile Include="ProgramTools\ProgramCommonVariables.cs" />
     <Compile Include="ProgramTools\ToolkitMethods.cs" />
+    <Content Include="ProgramFiles\credits.txt" />
     <Content Include="ProgramFiles\ProgramOld.cs.txt" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ProgramFiles\HelpMenu.txt" />

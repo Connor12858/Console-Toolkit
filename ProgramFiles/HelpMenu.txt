@@ -5,12 +5,11 @@ First indent: The the type of command ie. Network (Case Sensitive)
 Second indent: The command to be used ie. IPInfo
 Third indent: Parameters for the command ie. -ip?156.65.98.135
 Example Command: Network IPInfo -ip?156.65.98.135
+    [] - Needed arguments
+    () - optional
+    '' - default parameter when not provided
 
-ToolkitMethods - Unintentional cutomization ig
-    ClearScreen - Clear the screen
-        [] - Needed arguments
-        () - optional
-        '' - default parameter when not provided
+Help - Prints this menu
 
 File - Takes you to 'File Menu'
     Rename - Mass rename documents

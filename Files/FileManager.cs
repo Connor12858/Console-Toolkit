@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using System.Xml.Linq;
 
 namespace Console_Toolkit.Files
 {
@@ -40,14 +37,28 @@ namespace Console_Toolkit.Files
             return lines.Length;
         }
 
-        // Save text to a file
-        public static void CreateTextFile (string path, string text)
+        // Delete all files in a folder and sub folder, returns delete count
+        public static int DeleteFolderFiles(DirectoryInfo directory, string ext)
         {
-            
-        }
-        public static void CreateTextFile(string path, string[] text)
-        {
+            int count = 0;
+            // Delete the files
+            foreach (FileInfo file in directory.GetFiles())
+            {
+                if (ext == ".*" || file.Extension == ext)
+                {
+                    Console.WriteLine(file.FullName);
+                    file.Delete();
+                    count++;
+                }
+            }
 
+            // DO it again for all sub directories - recursive :D
+            foreach (DirectoryInfo dir in directory.GetDirectories())
+            {
+                count += DeleteFolderFiles(dir, ext);
+            }
+
+            return count;
         }
     }
 }
