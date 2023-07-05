@@ -1,4 +1,5 @@
 ﻿using Console_Toolkit.Files;
+using Pastel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,16 @@ namespace Console_Toolkit
 {
     internal class ToolkitMethods
     {
+        // Outputs text with color
+        public static void ColorWriteLine(string text, ConsoleColor color, string reg = "")
+        {
+            Console.WriteLine(reg + text.Pastel(color));
+        }
+        public static void ColorWrite(string text, ConsoleColor color, string reg = "")
+        {
+            Console.Write(reg + text.Pastel(color));
+        }
+
         // Creates a menu display
         public static string Menu(string title)
         {
@@ -143,7 +154,7 @@ namespace Console_Toolkit
             if (lineName != "Program")
             {
                 // Loops through all lines to detect if the first word is the first line of the block
-                for (int i = 0; i < FileManager.LineCount("..\\..\\ProgramFiles\\HelpMenu.txt"); i++)
+                for (int i = 0; i < FileManager.LineCount(ProgramCommonVariables.HelpFilePath); i++)
                 {
                     if (FirstWordToSentenceCheck(lines[i], lineName))
                     {
@@ -159,7 +170,7 @@ namespace Console_Toolkit
             }
 
             // Add the min and max text, only need to check for lines after 3 since always added
-            for (int i = ProgramCommonVariables.HelpMenuLength - 1; i < FileManager.LineCount("..\\..\\ProgramFiles\\HelpMenu.txt"); i++)
+            for (int i = ProgramCommonVariables.HelpMenuLength - 1; i < FileManager.LineCount(ProgramCommonVariables.HelpFilePath); i++)
             {
                 if (min <= i && i <= max)
                 {
@@ -248,7 +259,7 @@ namespace Console_Toolkit
                     }
 
                     // Check for even amount
-                    if (commands.Count / 2 == 0)
+                    if (commands.Count / 2 == 0 && commands.Count != 0)
                     {
                         throw new Exception("Wrong Argument Configuration");
                     }

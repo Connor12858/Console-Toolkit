@@ -25,9 +25,36 @@ namespace Console_Toolkit.Files
         }
         
         // Add to directories together
-        public static string AddDirectory(string[] paths)
+        public static string AddPaths(string[] paths)
         {
             return Path.Combine(paths);
+        }
+
+        // Adds a timestamp to the end of a file name
+        public static string TimeStamp(string name)
+        {
+            string[] parts = name.Split('.');
+            parts[0] += "_" + DateTime.Now.ToString("dd-MM-yyyy_HH-mm");
+            return string.Join(".", parts);
+        }
+
+        // Creates a text file and write to it
+        public static void CreateFile(string path, string[] contents)
+        {
+            Console.WriteLine(path);
+            using (StreamWriter sw = System.IO.File.CreateText(path))
+            {
+                foreach (var item in contents)
+                {
+                    sw.WriteLine(item);
+                }
+            }
+        }
+
+        // Checks if the file exists
+        public static bool FileExists(string path)
+        {
+            return System.IO.File.Exists(path);
         }
 
         //Check line count from a file
@@ -46,7 +73,7 @@ namespace Console_Toolkit.Files
             {
                 if (ext == ".*" || file.Extension == ext)
                 {
-                    Console.WriteLine(file.FullName);
+                    ToolkitMethods.ColorWriteLine(file.FullName, ConsoleColor.Cyan);
                     file.Delete();
                     count++;
                 }

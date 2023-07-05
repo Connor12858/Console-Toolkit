@@ -33,7 +33,7 @@ namespace Console_Toolkit
         public static void Menu()
         {
             // Runs the command line
-            Console.Write("Console >  ");
+            ToolkitMethods.ColorWrite("Console > ", ConsoleColor.DarkCyan);
 
             // Gets user input on the acion to take
             string input = Console.ReadLine();
@@ -46,7 +46,7 @@ namespace Console_Toolkit
             Console.ReadKey();
         }
 
-        public static void Purge(string p, string d, string t="-t?txt")
+        public static void Purge(string p, string d="-d?true", string t="-t?txt")
         {
             // Take the values from the passed args
             Console.WriteLine();
