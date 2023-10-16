@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
+using Console_Toolkit.ProgramTools;
+using IPinfo;
+using IPinfo.Models;
 
 namespace Console_Toolkit.Networks
 {
     internal class NetworkManager
     {
+        public static IPinfoClient client;
+
         // Finds if an IP is online
         public static bool IPOnline(string ip)
         {
@@ -35,6 +41,7 @@ namespace Console_Toolkit.Networks
             }
         }
 
+        // Gets a list of the local ipv4 address online, looks like 192.43.164.6 (not my address suckers)
         public static string FindIPv4Local(IPAddress[] ips)
         {
             // Check each IP
@@ -50,6 +57,26 @@ namespace Console_Toolkit.Networks
 
             // None was found so return nothing
             return "";
+        }
+
+        // Return an array of the information gather from an ip address, using IPInfo
+        public static Dictionary<string, string> IPInformation(string ip)
+        {
+            // Get the response containing the information
+            IPResponse ipResponse = client.IPApi.GetDetails(ip);
+
+            // Create the dictionary
+            Dictionary<string, string> info = new Dictionary<string, string>();
+
+            // Add the value to the dictionary
+            info.Add("City", ipResponse.City);
+            info.Add("Region", ipResponse.Region);
+            info.Add("Country", ipResponse.CountryName);
+            info.Add("Location", ipResponse.Loc);
+            info.Add("Timezone", ipResponse.Timezone);
+            info.Add("Host Name", ipResponse.Hostname);
+
+            return info;
         }
     }
 }

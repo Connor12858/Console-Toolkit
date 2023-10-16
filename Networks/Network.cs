@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.IO;
+using IPinfo;
 
 namespace Console_Toolkit
 {
@@ -15,7 +16,7 @@ namespace Console_Toolkit
     {
         // All the parsers for access
         private readonly static ArgumentParser parserIPInfo = new ArgumentParser();
-        private readonly static ArgumentParser parserIPAddress = new ArgumentParser();  
+        private readonly static ArgumentParser parserIPAddress = new ArgumentParser();
 
         // Setup the parsers
         public static void Start()
@@ -25,9 +26,14 @@ namespace Console_Toolkit
             parserIPAddress.AddArgument<bool>("-s", "false");
             parserIPAddress.AddArgument<bool>("-a", "true");
             parserIPAddress.AddArgument<string>("-p", "C:\\");
+
+            // Create the IPInfo network manager client
+            NetworkManager.client = new IPinfoClient.Builder()
+            .AccessToken(SECRETS.IPINFO_TOKEN)
+            .Build();
         }
 
-        public static void Main()
+            public static void Main()
         {
             // Setup the menu for the main method
             Console.Clear();
@@ -63,7 +69,24 @@ namespace Console_Toolkit
                 // Check if the IP is online
                 if (NetworkManager.IPOnline(ipAddress))
                 {
-                    Console.WriteLine(ipAddress);
+                    // Check if it's a local ip address
+                    if (ipAddress.Split('.')[0] == "10" || ipAddress.Split('.')[0] == "127")
+                    {
+                        Console.WriteLine("This is a local Ip Address, this is to check public Ip Addressses");
+                    } else
+                    {
+                        // Get the info
+                        Dictionary<string, string> info = NetworkManager.IPInformation(ipAddress);
+
+                        // Display the information
+                        string[] items = new string[] { "Host Name", "Country", "Region", "City", "Location", "Timezone" };
+
+                        foreach (string item in items)
+                        {
+                            ToolkitMethods.ColorWrite(item, ConsoleColor.Cyan);
+                            Console.WriteLine(": " + info[item]);
+                        }
+                    }
                 }
                 else
                 {
