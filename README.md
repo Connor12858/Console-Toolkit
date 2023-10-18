@@ -20,8 +20,28 @@ The program will generate it's own filename so just add a path to the folder, so
 
 ## IP Info
 
+Can retrieve information such as the city the provider of the network is based, and the long and lat for the city. This also includes the timezone and possibly host names 
+(if the external application allows me). Using a 3rd party nuget package called [IPInfo](https://ipinfo.io/) and a secret key from my account.
+
+Very basic to use, `Network IPInfo -ip 99.123.456.789` will give the information on the address provided. It does not allow local ip's such as 127.0.0.1 or 
+10.0.0.1 to be used as it would return nothing and waste a call for the month. Using a public ip address, which can be found at [What is my IP](https://whatismyipaddress.com/)
+and reading the <bold>IPv4<bold> for a your own public ip.
+
 # File
+
+## Purge
+
+Deletes all the files in a folder, or all files with a certain extension.
+
+To remove everything use `File Purge -p "Path\to\folder"`, default is to remove everything. If you do not want to remove everything we can add 1 more argument,
+`-d false`. This will by default remove all documents that end with a .txt extension, to change the extension to delete add `-t png`. This 
+would delete everything that ends in .png, <bold>It automatically adds the '.'. DO NOT ADD IT.<bold>
+
+`File Purge -p "C:\Users\canop\OneDrive\Photos" -d false -t jpg` would remove all my .jpg photos but not my .png photos. Highly recommended to always put a " around the path
+or at least ' so the program will concat it if it contains spaces.
 
 # Games
 
 ## PinGuesser
+ 
+To play enter `Games PinGuesser`. It is a homemade digital version of the [Mastermind Board Game](https://en.wikipedia.org/wiki/Mastermind_(board_game))
