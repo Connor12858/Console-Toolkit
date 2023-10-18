@@ -1,8 +1,10 @@
 # Console-Toolkit
 A program that simulates a Command Prompt, but contains something else than the basics.
 
+<br>
 # Installing
 
+<br><br>
 # Network
 
 ## IP Address
@@ -13,7 +15,7 @@ Basic usage would be `Network IPAddress -a true`, displaying all the online devi
 A very simple usage, but we can save the results to a file if we wish and choose the location of the file as so.
 
 `Network IPAddress -a true -s true` will save the docume to the default folder, when looking at the help menu it says `C:\`. 
-To change the location we need to add 1 more argument to the command, `-p`, which tells the program the <b>Path<b> to save.
+To change the location we need to add 1 more argument to the command, `-p`, which tells the program the <b>Path</b> to save.
 `Network IPAddress -a false -s true -p C:\Users\canop\OneDrive\Desktop` would output a list of all the devices and their status to a file on my Desktop.
 
 The program will generate it's own filename so just add a path to the folder, some paths would require admin access, like special folders.
@@ -27,6 +29,7 @@ Very basic to use, `Network IPInfo -ip 99.123.456.789` will give the information
 10.0.0.1 to be used as it would return nothing and waste a call for the month. Using a public ip address, which can be found at [What is my IP](https://whatismyipaddress.com/)
 and reading the <bold>IPv4<bold> for a your own public ip.
 
+<br><br>
 # File
 
 ## Purge
@@ -40,6 +43,7 @@ would delete everything that ends in .png, <bold>It automatically adds the '.'. 
 `File Purge -p "C:\Users\canop\OneDrive\Photos" -d false -t jpg` would remove all my .jpg photos but not my .png photos. Highly recommended to always put a " around the path
 or at least ' so the program will concat it if it contains spaces.
 
+<br><br>
 # Games
 
 ## PinGuesser
