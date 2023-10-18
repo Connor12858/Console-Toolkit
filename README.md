@@ -1,4 +1,4 @@
-# Console-Toolkit
+<div align="center"> # Console-Toolkit </div>
 A program that simulates a Command Prompt, but contains something else than the basics.
 ![Windows Command Prompt GIF](https://upload.wikimedia.org/wikipedia/commons/2/23/Command_Prompt_Animation.gif)
 
