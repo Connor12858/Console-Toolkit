@@ -1,5 +1,6 @@
 # Console-Toolkit
 A program that simulates a Command Prompt, but contains something else than the basics.
+![Windows Command Prompt GIF](https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ACommand_Prompt_Animation.gif&psig=AOvVaw1c95K1vUycQupFcmyjuTPG&ust=1697694444191000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqGAoTCPi_i-Ty_oEDFQAAAAAdAAAAABCoAQ)
 
 <br><br>
 # Installing
