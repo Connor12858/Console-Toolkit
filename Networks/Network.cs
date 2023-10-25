@@ -39,7 +39,7 @@ namespace Console_Toolkit
             Console.Clear();
             Console.WriteLine(ToolkitMethods.Menu("Network"));
 
-            // Runt the input menu
+            // Run the input menu
             Menu();
         }
 
