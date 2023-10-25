@@ -1,6 +1,7 @@
 <div align="center"> 
 <h1> Console-Toolkit </h1> 
-A program that simulates a Command Prompt, but contains something else than the basics.
+A program that simulates a Command Prompt, but contains something else than the basics. Allows the users to play games in the console, as well as 
+some more networking tools or managing files.
 
 ![Windows Command Prompt GIF](https://upload.wikimedia.org/wikipedia/commons/2/23/Command_Prompt_Animation.gif)
 
