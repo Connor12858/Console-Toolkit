@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Console_Toolkit.Files
@@ -86,6 +87,42 @@ namespace Console_Toolkit.Files
             }
 
             return count;
+        }
+
+        // Get all the files in a directory with recursion
+        public static List<FileInfo> AllFilesInFolder(DirectoryInfo directory)
+        {
+            List<FileInfo> files = new List<FileInfo>();
+
+            foreach(FileInfo file in directory.GetFiles())
+            {
+                files.Add(file);
+            }
+
+            foreach(DirectoryInfo directoryInfo in directory.GetDirectories())
+            {
+                files.AddRange(AllFilesInFolder(directoryInfo));
+            }
+
+            return files;
+        }
+
+        // Send an array of information of a file provided
+        // Will be expanded on overall as needed
+        public static Dictionary<string, string> FileInformation(FileInfo file)
+        {
+            // Create a list to store the information
+            Dictionary<string, string> info = new Dictionary<string, string>();
+
+            // Add the information 
+            info.Add("Creation Time", file.CreationTime.ToString());
+            info.Add("Name", file.Name.ToString());
+            info.Add("Path", file.FullName.ToString());
+            info.Add("Last Write", file.LastWriteTime.ToString());
+            info.Add("Extension", file.Extension.ToString());
+
+            // Send it back
+            return info;
         }
     }
 }
