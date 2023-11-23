@@ -88,42 +88,34 @@ namespace Console_Toolkit
 
                                 // Format to be a vaild file name
                                 new_name = new_name.Replace('/', '-').Replace(' ', '_').Replace(':', '.');
-                                new_name += fileInfo["Extension"];
-
-                                // Add the path
-                                new_name = fileInfo["Path"].Replace(fileInfo["Name"], new_name);
 
                                 // Only if the name hasn't been already formatted
-                                if (fileInfo["Path"] != new_name)
+                                Console.WriteLine(new_name + " " + fileInfo["Path"]);
+                                if (!fileInfo["Path"].Contains(new_name))
                                 {
-                                    // Output the current file
-                                    Console.WriteLine($"Formatting from {fileInfo["Path"]}");
+                                    // Add the path
+                                    new_name = fileInfo["Path"].Replace(fileInfo["Name"], new_name);
+                                    new_name += fileInfo["Extension"];
 
-                                    // If the file name already is there add a number
+                                    // If the file name already is there add/replace a number
                                     int fileCount = 1;
                                     while (FileManager.FileExists(new_name))
                                     {
-                                        Console.WriteLine("Count: " + fileCount);
-                                        // Remove the old tag so we can add a new one
-                                        if (fileInfo["Path"].Contains($" ({fileCount})"))
+                                        if (new_name.Contains($" ({fileCount - 1})"))
                                         {
-                                            Console.WriteLine("Remove");
-                                            new_name = new_name.Replace($" ({fileCount})", $" ({fileCount})");
+                                            // Replace the tag with the next number
+                                            new_name = new_name.Replace($" ({fileCount - 1})", $" ({fileCount})");
                                         }
                                         else
                                         {
-                                            Console.WriteLine("Add");
                                             // Add a tag with the next file name
                                             new_name = new_name.Replace(fileInfo["Extension"], $" ({fileCount})" + fileInfo["Extension"]);
                                         }
                                         fileCount++;
-
-                                        Console.WriteLine("Path:", new_name);
                                     }
 
-                                    Console.WriteLine(new_name);
-
                                     // Rename the file by moving the contents to the new path
+                                    Console.WriteLine(new_name);
                                     file.MoveTo(new_name);
                                 }
                             }
