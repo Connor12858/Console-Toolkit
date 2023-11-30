@@ -19,6 +19,8 @@ namespace Console_Toolkit.Games
         {
             Console.Clear();
 
+            done = false;
+
             // Set the pin to 4 digits with no repeats
             List<int> nums = new List<int>();
             for (int i = 0; i < 4; i++)

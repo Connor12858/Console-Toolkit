@@ -112,14 +112,15 @@ namespace Console_Toolkit.Files
         public static Dictionary<string, string> FileInformation(FileInfo file)
         {
             // Create a list to store the information
-            Dictionary<string, string> info = new Dictionary<string, string>();
-
-            // Add the information 
-            info.Add("Creation Time", file.CreationTime.ToString());
-            info.Add("Name", file.Name.ToString());
-            info.Add("Path", file.FullName.ToString());
-            info.Add("Last Write", file.LastWriteTime.ToString());
-            info.Add("Extension", file.Extension.ToString());
+            Dictionary<string, string> info = new Dictionary<string, string>
+            {
+                // Add the information 
+                { "Creation Time", file.CreationTime.ToString() },
+                { "Name", file.Name.ToString() },
+                { "Path", file.FullName.ToString() },
+                { "Last Write", file.LastWriteTime.ToString() },
+                { "Extension", file.Extension.ToString() },
+            };
 
             // Send it back
             return info;

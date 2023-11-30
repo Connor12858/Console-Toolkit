@@ -4,17 +4,20 @@
 First indent: The the type of command ie. Network (Case Sensitive)
 Second indent: The command to be used ie. IPInfo
 Third indent: Parameters for the command ie. -ip 156.65.98.135
+
 Example Command: Network IPInfo -ip 156.65.98.135
+    
     [] - Needed arguments
-    () - optional
-    '' - default parameter when not provided
+    () - optional, the value in these brackets are the defaults when not provided
 
 Help - Prints this menu
 
 File - Takes you to 'File Menu'
     Rename - Mass rename documents
+        [-p 'path\to\folder'] - Path to the folder
+        (-f time) - Format for the mass rename
     Purge - Purge a directory of all documents or types
-        [-p "path\to\folder"] - Path to the foloder
+        [-p 'path\to\folder'] - Path to the folder
         [-d true] - Delete all files
         (-t txt) - File extension to delete
 

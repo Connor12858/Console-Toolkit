@@ -84,13 +84,12 @@ namespace Console_Toolkit
                                 Dictionary<string, string> fileInfo = FileManager.FileInformation(file);
 
                                 // Generate the new name of the file with a timestamp instead
-                                string new_name = fileInfo["Creation Time"];
+                                string new_name = fileInfo["Last Write"];
 
                                 // Format to be a vaild file name
                                 new_name = new_name.Replace('/', '-').Replace(' ', '_').Replace(':', '.');
 
                                 // Only if the name hasn't been already formatted
-                                Console.WriteLine(new_name + " " + fileInfo["Path"]);
                                 if (!fileInfo["Path"].Contains(new_name))
                                 {
                                     // Add the path
@@ -115,47 +114,39 @@ namespace Console_Toolkit
                                     }
 
                                     // Rename the file by moving the contents to the new path
-                                    Console.WriteLine(new_name);
                                     file.MoveTo(new_name);
                                 }
                             }
 
+                            // Tell the user it is completed
+                            Console.WriteLine("Formatted all files in: " + dir);
                             break;
 
                         // Number them from 1 till all files renamed numbered
                         case "number":
 
-                            // Create the count we use to number them
-                            int nameCount = 1;
+                            // Get all the files to look at the count and the indivual files
+                            List<FileInfo> files = FileManager.AllFilesInFolder(dir);
 
                             // Loop for each file
-                            foreach (FileInfo file in FileManager.AllFilesInFolder(dir))
+                            for(int x = 1; x <= files.Count; x++)
                             {
                                 // Get all the information of the file
-                                Dictionary<string, string> fileInfo = FileManager.FileInformation(file);
+                                Dictionary<string, string> fileInfo = FileManager.FileInformation(files[x - 1]);
 
                                 // Create a new name with the count
-                                string new_name = fileInfo["Path"].Replace(fileInfo["Name"], nameCount.ToString());
+                                string new_name = fileInfo["Path"].Replace(fileInfo["Name"], x.ToString());
                                 new_name += fileInfo["Extension"];
 
-                                // If it exsists we need to add 1 and skip it
-                                while(System.IO.File.Exists(new_name))
-                                {
-                                    // Increase the count
-                                    nameCount++;
-
-                                    // Recreate the name of the file
-                                    new_name = fileInfo["Path"].Replace(fileInfo["Name"], nameCount.ToString());
-                                    new_name += fileInfo["Extension"];
+                                if (!FileManager.FileExists(new_name))
+                                { 
+                                    // Rename the file by moving the contents to the new path
+                                    files[x - 1].MoveTo(new_name);
                                 }
-
-                                // Tell the user the new path
-                                Console.WriteLine(new_name);
-
-                                // Rename the file by moving the contents to the new path
-                                file.MoveTo(new_name);
                             }
 
+                            // Tell the user it is done
+                            Console.WriteLine("Formatted all files in: " + dir);
                             break;
 
                         // None of them matched which means it is not a supported value

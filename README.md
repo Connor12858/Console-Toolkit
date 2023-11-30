@@ -40,16 +40,30 @@ and reading the **IPv4** for a your own public ip.
 
 ## Rename
 
+Renames all the files in a folder with a given format.
+
+Renaming requires giving a path and a format name, `File Rename -p 'Path\to\folder'`, which will default to the time format. To change the format of the mass
+renaming we need to add the `-f` argument with a valid format name. Running more than once of the same formatting will have no effect on the ordering of the 
+files, everything stays the same. This works by "moving" the file to the new path, which means that creation date of the file will become the time that the 
+command was run last on the file.
+
+### Renaming formats
+
+`time` - Renames to the time the file was last written to, duplicates get a `(1)` added onwards
+`number` - Renames to a number from 1 to the last file, no special order for the way it is numbered
+
+`File Rename -p 'C:\Users\canop\Pictures\new' -f time` will rename all the photos in my new folder to the time they were last written to. Photos will be the time 
+and date the picture was taken, or as to when the photo was last edited. Text documents will be the date content was last written to.
 
 ## Purge
 
 Deletes all the files in a folder, or all files with a certain extension.
 
-To remove everything use `File Purge -p "Path\to\folder"`, default is to remove everything. If you do not want to remove everything we can add 1 more argument,
+To remove everything use `File Purge -p 'Path\to\folder'`, default is to remove everything. If you do not want to remove everything we can add 1 more argument,
 `-d false`. This will by default remove all documents that end with a .txt extension, to change the extension to delete add `-t png`. This 
 would delete everything that ends in .png, **It automatically adds the '.'. DO NOT ADD IT.**
 
-`File Purge -p "C:\Users\canop\OneDrive\Photos" -d false -t jpg` would remove all my .jpg photos but not my .png photos. Highly recommended to always put a " around the path
+`File Purge -p 'C:\Users\canop\OneDrive\Photos' -d false -t jpg` would remove all my .jpg photos but not my .png photos. Highly recommended to always put a " around the path
 or at least ' so the program will concat it if it contains spaces.
 
 <br><br>
