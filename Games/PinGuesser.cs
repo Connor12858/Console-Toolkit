@@ -11,8 +11,8 @@ namespace Console_Toolkit.Games
     {
         // Variables needed for the game
         static string pin;
-        static List<string> log = new List<string>();
-        static Random random = new Random();
+        static readonly List<string> log = new List<string>();
+        static readonly Random random = new Random();
         static bool done = false;
 
         public static void Start()

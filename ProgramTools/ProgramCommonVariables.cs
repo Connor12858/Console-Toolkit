@@ -8,7 +8,7 @@ namespace Console_Toolkit
     class ProgramCommonVariables
     {
         public static readonly string HelpFilePath = "..\\..\\ProgramFiles\\HelpMenu.txt";
-        public static readonly int HelpMenuLength = 13;
+        public static readonly int HelpMenuLength = 12;
         public static readonly string[] mangerList = { "File", "Network", "Program", "Game"};
         public static readonly ReadOnlyDictionary<ConsoleColor, Color> ColorMapper = new ReadOnlyDictionary<ConsoleColor, Color>(new Dictionary<ConsoleColor, Color>
         {

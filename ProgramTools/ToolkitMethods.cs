@@ -275,7 +275,7 @@ namespace Console_Toolkit
                     string[] providedArgs = commands.ToArray();
 
                     // Execute the method
-                    var method = ToolkitMethods.RetrieveMethod(classType, methodName);
+                    var method = RetrieveMethod(classType, methodName);
                     if (method != null)
                     {
                         // Set the needed parameters and use default if not given

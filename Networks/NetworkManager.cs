@@ -66,15 +66,16 @@ namespace Console_Toolkit.Networks
             IPResponse ipResponse = client.IPApi.GetDetails(ip);
 
             // Create the dictionary
-            Dictionary<string, string> info = new Dictionary<string, string>();
-
-            // Add the value to the dictionary
-            info.Add("City", ipResponse.City);
-            info.Add("Region", ipResponse.Region);
-            info.Add("Country", ipResponse.CountryName);
-            info.Add("Location", ipResponse.Loc);
-            info.Add("Timezone", ipResponse.Timezone);
-            info.Add("Host Name", ipResponse.Hostname);
+            Dictionary<string, string> info = new Dictionary<string, string>
+            {
+                // Add the value to the dictionary
+                { "City", ipResponse.City },
+                { "Region", ipResponse.Region },
+                { "Country", ipResponse.CountryName },
+                { "Location", ipResponse.Loc },
+                { "Timezone", ipResponse.Timezone },
+                { "Host Name", ipResponse.Hostname }
+            };
 
             return info;
         }
